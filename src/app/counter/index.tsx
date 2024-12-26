@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { startTransition, useActionState } from "react";
 
 // 非同期データ取得関数
 const fetchData = async (): Promise<void> => {
@@ -10,13 +10,20 @@ const fetchData = async (): Promise<void> => {
 };
 
 export function Counter() {
-  const [count, setCount] = useState(0);
-  const [isPending, startTransition] = useTransition();
+  const [count, runAction, isPending] = useActionState<
+    number,
+    { type: "INCREMENT" }
+  >(async (prev, payload) => {
+    if (payload.type === "INCREMENT") {
+      await fetchData();
+      return prev + 1;
+    }
+    return prev;
+  }, 0);
 
   const handleClick = () => {
-    startTransition(async () => {
-      await fetchData();
-      setCount((prev) => prev + 1);
+    startTransition(() => {
+      runAction({ type: "INCREMENT" });
     });
   };
 
