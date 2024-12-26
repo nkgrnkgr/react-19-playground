@@ -1,3 +1,10 @@
+import { Counter } from "./counter";
+
 export function App() {
-  return <h1>Hello React 19</h1>;
+  return (
+    <div>
+      <h1>Hello React 19</h1>
+      <Counter />
+    </div>
+  );
 }
