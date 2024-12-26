@@ -1,4 +1,4 @@
-import { startTransition, useActionState } from "react";
+import { useActionState } from "react";
 
 // 非同期データ取得関数
 const fetchData = async (): Promise<void> => {
@@ -21,18 +21,16 @@ export function Counter() {
     return prev;
   }, 0);
 
-  const handleClick = () => {
-    startTransition(() => {
-      runAction({ type: "INCREMENT" });
-    });
-  };
-
   return (
-    <div>
+    <form
+      action={async () => {
+        runAction({ type: "INCREMENT" });
+      }}
+    >
       <p>Count: {count}</p>
-      <button type="button" onClick={handleClick} disabled={isPending}>
+      <button type="submit" disabled={isPending}>
         Increment
       </button>
-    </div>
+    </form>
   );
 }
