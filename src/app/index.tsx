@@ -1,4 +1,8 @@
-import { CounterForFormAction, CounterForUseTransition } from "./counter";
+import {
+  CounterForFormAction,
+  CounterForFormStatus,
+  CounterForUseTransition,
+} from "./counter";
 
 export function App() {
   return (
@@ -7,6 +11,7 @@ export function App() {
       <CounterForFormAction />
       <CounterForUseTransition />
       <CounterForUseTransition />
+      <CounterForFormStatus />
     </div>
   );
 }

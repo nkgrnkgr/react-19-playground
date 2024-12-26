@@ -4,6 +4,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import { useFormStatus } from "react-dom";
 
 // 非同期データ取得関数
 const fetchData = async (): Promise<void> => {
@@ -88,6 +89,41 @@ export function CounterForFormAction() {
       <button type="submit" disabled={isPending}>
         Increment
       </button>
+    </form>
+  );
+}
+
+function SubmitButton() {
+  const status = useFormStatus();
+
+  return (
+    <button type="submit" disabled={status.pending}>
+      Increment
+    </button>
+  );
+}
+
+export function CounterForFormStatus() {
+  const [count, runAction] = useActionState<number, { type: "INCREMENT" }>(
+    async (prev, payload) => {
+      if (payload.type === "INCREMENT") {
+        await fetchData();
+        return prev + 1;
+      }
+      return prev;
+    },
+    0,
+  );
+
+  const action = async () => {
+    runAction({ type: "INCREMENT" });
+  };
+
+  return (
+    <form action={action}>
+      <h2>CounterFor formStatus</h2>
+      <p>Count: {count}</p>
+      <SubmitButton />
     </form>
   );
 }
