@@ -1,17 +1,12 @@
-import {
-  CounterForFormAction,
-  CounterForFormStatus,
-  CounterForUseTransition,
-} from "./counter";
+import { Counter } from "./counter";
+import { FormDataSupport } from "./formDataSupport";
 
 export function App() {
   return (
     <div>
       <h1>Hello React 19</h1>
-      <CounterForFormAction />
-      <CounterForUseTransition />
-      <CounterForUseTransition />
-      <CounterForFormStatus />
+      <FormDataSupport />
+      <Counter />
     </div>
   );
 }

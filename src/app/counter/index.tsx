@@ -15,7 +15,7 @@ const fetchData = async (): Promise<void> => {
   });
 };
 
-export function CounterForUseTransition() {
+function CounterForUseTransition() {
   const [count, setCount] = useState(0);
   const [isPending, st] = useTransition();
 
@@ -37,7 +37,7 @@ export function CounterForUseTransition() {
   );
 }
 
-export function CounterForUseActionState() {
+function CounterForUseActionState() {
   const [count, runAction, isPending] = useActionState<
     number,
     { type: "INCREMENT" }
@@ -66,7 +66,7 @@ export function CounterForUseActionState() {
   );
 }
 
-export function CounterForFormAction() {
+function CounterForFormAction() {
   const [count, runAction, isPending] = useActionState<
     number,
     { type: "INCREMENT" }
@@ -103,7 +103,7 @@ function SubmitButton() {
   );
 }
 
-export function CounterForFormStatus() {
+function CounterForFormStatus() {
   const [count, runAction] = useActionState<number, { type: "INCREMENT" }>(
     async (prev, payload) => {
       if (payload.type === "INCREMENT") {
@@ -125,5 +125,16 @@ export function CounterForFormStatus() {
       <p>Count: {count}</p>
       <SubmitButton />
     </form>
+  );
+}
+
+export function Counter() {
+  return (
+    <>
+      <CounterForFormAction />
+      <CounterForUseTransition />
+      <CounterForUseTransition />
+      <CounterForFormStatus />
+    </>
   );
 }
