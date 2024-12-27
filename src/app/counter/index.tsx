@@ -133,7 +133,7 @@ export function Counter() {
     <>
       <CounterForFormAction />
       <CounterForUseTransition />
-      <CounterForUseTransition />
+      <CounterForUseActionState />
       <CounterForFormStatus />
     </>
   );

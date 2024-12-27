@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
+import { AsyncStateProvider } from "../../hooks/useAsyncState";
 
 type Param = {
   name: string;
@@ -31,30 +32,15 @@ const fetchData = async (param: Param): Promise<Response> => {
   });
 };
 
-function SubmitButton() {
+function Form({ user }: { user: User | null }) {
   const { pending } = useFormStatus();
-  return (
-    <button type="submit" disabled={pending}>
-      Submit
-    </button>
-  );
-}
 
-export function FormDataSupport() {
-  const [user, setUser] = useState<User | null>(null);
-
-  const action = async (formData: FormData) => {
-    const name = formData.get("name");
-    const note = formData.get("note");
-    const user = await fetchData({
-      name: name as string,
-      note: note as string,
-    });
-    setUser(user.user);
-  };
+  if (pending) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <form action={action}>
+    <>
       <div>
         <label>
           <span>名前：</span>
@@ -68,11 +54,33 @@ export function FormDataSupport() {
         </label>
       </div>
       <div>
-        <SubmitButton />
+        <button type="submit" disabled={pending}>
+          Submit
+        </button>
       </div>
       <div>
         <pre>{user ? JSON.stringify(user, null, 2) : "No data"}</pre>
       </div>
+    </>
+  );
+}
+
+export function FormDataSupport() {
+  const [user, setUser] = useState<User | null>(null);
+
+  const action = async (formData: FormData) => {
+    const name = formData.get("name");
+    const note = formData.get("note");
+    const { user } = await fetchData({
+      name: name as string,
+      note: note as string,
+    });
+    setUser(user);
+  };
+
+  return (
+    <form action={action}>
+      <Form user={user} />
     </form>
   );
 }

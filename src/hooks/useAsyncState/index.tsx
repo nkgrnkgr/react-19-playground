@@ -6,12 +6,15 @@ import {
   useActionState,
   useContext,
 } from "react";
+import type { User } from "./fetchUser";
 
-type State = Record<string, unknown>;
+type State = {
+  user: User | null;
+};
 
 type ContextProps = {
   state: State;
-  updateState: (payload: Partial<State>) => void;
+  updateState: (payload: Partial<State>) => Promise<void>;
   pending: boolean;
 };
 
@@ -24,10 +27,13 @@ export const AsyncStateProvider: React.FC<{ children: ReactNode }> = ({
     (prev, payload) => {
       return { ...prev, ...payload };
     },
-    {},
+    {
+      name: "",
+      note: "",
+    },
   );
 
-  const updateState = (payload: Partial<State>) => {
+  const updateState = async (payload: Partial<State>) => {
     startTransition(() => {
       runAction(payload);
     });
