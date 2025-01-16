@@ -28,8 +28,7 @@ export const AsyncStateProvider: React.FC<{ children: ReactNode }> = ({
       return { ...prev, ...payload };
     },
     {
-      name: "",
-      note: "",
+      user: null,
     },
   );
 
